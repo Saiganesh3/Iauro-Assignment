@@ -1,0 +1,46 @@
+# Project
+  
+  Creating 3 Docker Containers using docker-compose.
+
+# Requiremens
+
+  For development, you need Java, Jenkins, Docker, Docker-compose, Nginx
+  
+# Environment
+  
+  Take an ec2 instance from AWS and then install Java, Jenkins, Docker, Docker-compose.
+
+  To start this application first you can get this repo code using below url
+
+  git clone https://github.com/Saiganesh3/Iauro-Assignment.git
+
+# Jenkins Configuration
+
+  pipeline {
+  agent any
+  stages{
+    stage('Cloning Git'){
+      steps{
+        script{
+            cleanWs()
+           git url: 'https://github.com/Saiganesh3/Iauro-Assignment.git', branch: 'master'
+        }
+      }
+    }
+    stage('Build and Deploy'){
+      steps{
+        script{
+            sh "chmod -R 777 ."
+            echo "Build and Deploy"
+            sh "ls -la"
+            sh "docker-compose down --rmi local --remove-orphans"
+            sh "docker-compose up --build -d"
+          }
+        }
+      }
+    }
+  }
+
+  Here Jenkins pipeline will create a new Docker image and it will deploy the Applications using Docker-compose file.
+  
+  Install Nginx in the server and run the application in the default nginx port.
